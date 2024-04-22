@@ -9,6 +9,14 @@ from collections import defaultdict
 bootstrap_servers = ['localhost:9092']
 topic = 'also-buy-topic'
 
+mongo_conn_string = 'mongodb://localhost:27017/'
+mongo_db_name = 'myDatabase'
+mongo_collection_name = 'frequentItemsetspcy'
+
+client = pymongo.MongoClient(mongo_conn_string)
+db = client[mongo_db_name]
+collection = db[mongo_collection_name]
+
 ## number of buckets for the pcy algorithm 
 num_buckets = 10**5
 
@@ -71,7 +79,21 @@ for message in consumer:
     
     #printing the frequent itemsets found in the batch
     if frequent_sets is not None:
-        print(frequent_sets)
+        # Convert keys to strings in frequent_sets
+        frequent_sets_str_keys = {str(key): value for key, value in frequent_sets.items()}
+
+        # Store the result into MongoDB
+        insert_result = collection.insert_one({
+            'batch': i,
+            'frequent_itemsets': frequent_sets_str_keys
+        })
+
+        document_id = insert_result.inserted_id
+        print(f'Result stored in MongoDB with document ID: {document_id}')
+        
+        # Retrieve the result from MongoDB to confirm it was stored correctly
+        retrieved_document = collection.find_one({'_id': document_id})
+        print('Retrieved from MongoDB:', retrieved_document)
     
     #free the memory by setting the variables
     # data annd frequent sets to none
