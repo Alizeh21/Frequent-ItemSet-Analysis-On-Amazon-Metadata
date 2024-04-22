@@ -58,7 +58,6 @@ for message in consumer:
     data = message.value
     frequent_sets = process_batch(data)
     if frequent_sets:
-        print(frequent_sets)
         
         # Convert keys to strings in frequent_sets
         frequent_sets_str_keys = {str(key): value for key, value in frequent_sets.items()}
