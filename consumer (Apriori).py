@@ -1,9 +1,19 @@
 from kafka import KafkaConsumer, TopicPartition
 import json
 from collections import defaultdict
+import pymongo
 
 bootstrap_servers = ['localhost:9092']
 topic = 'also-buy-topic'
+
+mongo_conn_string = 'mongodb://localhost:27017/'
+mongo_db_name = 'myDatabase'
+mongo_collection_name = 'frequentItemsetsapriori'
+
+client = pymongo.MongoClient(mongo_conn_string)
+db = client[mongo_db_name]
+collection = db[mongo_collection_name]
+
 
 def process_batch(batch):
     support_threshold = 15
@@ -49,5 +59,23 @@ for message in consumer:
     frequent_sets = process_batch(data)
     if frequent_sets:
         print(frequent_sets)
+        
+        # Convert keys to strings in frequent_sets
+        frequent_sets_str_keys = {str(key): value for key, value in frequent_sets.items()}
+
+        # Store the result into MongoDB
+        insert_result = collection.insert_one({
+            'batch': i,
+            'frequent_itemsets': frequent_sets_str_keys
+        })
+
+        document_id = insert_result.inserted_id
+        print(f'Result stored in MongoDB with document ID: {document_id}')
+        
+        # Retrieve the result from MongoDB to confirm it was stored correctly
+        retrieved_document = collection.find_one({'_id': document_id})
+        print('Retrieved from MongoDB:', retrieved_document)
+
+    i += 1
     print()
     print()
