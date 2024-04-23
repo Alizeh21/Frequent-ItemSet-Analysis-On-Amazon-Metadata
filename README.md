@@ -217,11 +217,11 @@ In essence, this script orchestrates the entire system by launching Kafka compon
 
 
 ## CONTRIBUTORS 
-> [ moaz-murtaza ](i221902@nu.edu.pk)
+> [moaz-murtaza](https://github.com/moaz-murtaza)(i221902@nu.edu.pk)
 
-> [ bilalbashir08 ](i221901@nu.edu.pk)
+> [ bilalbashir08](https://github.com/bilalbashir08) (i221901@nu.edu.pk)
 
-> [ Alizeh21 ](i211775@nu.edu.pk)
+> [Alizeh21](https://github.com/Alizeh21)(i211775@nu.edu.pk)
 
 
 
