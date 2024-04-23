@@ -26,6 +26,11 @@ This project implements a real-time product recommendation system for Amazon pro
 
 This project aims to showcase the application of frequent itemset mining algorithms in a streaming context for real-time product recommendations.
 
+
+### SAMPLE_SCRIPT
+
+This Python script samples a large JSON file (like Amazon product data) to a smaller size you specify (in gigabytes). It focuses on keeping information relevant to the needs by filtering for specific data fields (like "also_buy" and "categories") and stopping when the target size is reached. It processes the file line by line, keeping track of the output size, and writes chunks of data at a time for efficiency.
+
 ### PREPROCESSING AND LOADING OF THE DATASET
 
 This Python script preprocesses a large JSON file containing Amazon product data. It extracts specific features (asin, also_buy, and feature) from each product entry and creates a new JSON file containing only those features. To handle large datasets efficiently, the script processes the data in chunks of 100 rows at a time. Each chunk is converted to JSON format with each product on a separate line and then appended to the output file. This approach reduces memory usage compared to processing the entire file at once.
@@ -210,6 +215,13 @@ This batch script automates setting up and running the various components of you
 
 In essence, this script orchestrates the entire system by launching Kafka components (Zookeeper and server), the producer to stream data, and two consumers to analyze the data in real-time using different algorithms.
 
+
+## CONTRIBUTORS 
+> [ moaz-murtaza ](i221902@nu.edu.pk)
+
+> [ bilalbashir08 ](i221901@nu.edu.pk)
+
+> [ Alizeh21 ](i211775@nu.edu.pk)
 
 
 
