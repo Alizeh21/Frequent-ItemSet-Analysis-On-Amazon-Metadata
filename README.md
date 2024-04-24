@@ -46,7 +46,7 @@ This section describes the producer application, a crucial component in the real
 
 - _topic:_ Defines the topic name used for streaming "also_buy" data (also-buy-topic).
 
-- _feature_topic:_ Defines the topic name used for streaming product feature data (product-feature-topic).
+- _price_topic:_ Defines the topic name used for streaming product feature data (product-price-topic).
 
 - _value_serializer:_ Ensures data sent to Kafka is serialized as JSON strings with UTF-8 encoding for proper data exchange.
 
