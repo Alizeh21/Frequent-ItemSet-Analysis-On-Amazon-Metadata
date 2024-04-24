@@ -209,17 +209,27 @@ Assigns a specific topic partition **(TopicPartition(topic_name, 0))** to the co
 ##### **Main Loop:**
 
 > - Starts an infinite loop to continuously consume messages from the Kafka topic.
+
 > - For each received message:
+
 > - Prints a message indicating the batch number being processed.
+
 > - Extracts the product data from the message value.
+
 > - Iterates through each product within the data:
+
 > - If the product has a price field:
+
 > - Calls the categorize_prices function to assign a category based on price.
+
 > - Sets the batch number for the product based on the current processing iteration.
+
 > - Uses MongoDB's replace_one method to update the product document in the collection. This performs an upsert operation, meaning it either updates an existing 
    document with the ASIN (unique product identifier) or inserts a new document if it doesn't exist.
+
 > - After processing the products in the batch, calls the fetch_categorized_products_from_batch function to retrieve and print the categorized product details 
     from MongoDB for reference.
+
 > - Increments the batch number for the next iteration.
 
 
@@ -230,9 +240,9 @@ This consumer acts as a bridge between the real-time product data stream from Ka
 
 ### **Why we used the approach of the third consumer (categorizing consumer) and how it is effective : **
 
-This approach offers several advantages for the consumer in this scenario. Firstly, by leveraging Kafka's real-time processing capabilities, the consumer application can handle a continuous stream of product data without delays. This ensures that the product information in the MongoDB collection remains up-to-date, reflecting the latest additions or changes. Secondly, categorizing products based on price provides valuable insights for consumers. Imagine browsing an e-commerce platform where products are automatically categorized by price range. This can significantly improve the consumer experience by allowing for quicker product discovery and easier price comparisons within specific budget constraints.
+> - This approach offers several advantages for the consumer in this scenario. Firstly, by leveraging Kafka's real-time processing capabilities, the consumer application can handle a continuous stream of product data without delays. This ensures that the product information in the MongoDB collection remains up-to-date, reflecting the latest additions or changes. Secondly, categorizing products based on price provides valuable insights for consumers. Imagine browsing an e-commerce platform where products are automatically categorized by price range. This can significantly improve the consumer experience by allowing for quicker product discovery and easier price comparisons within specific budget constraints.
 
-In this particular assignment, the consumer application functions as a data pipeline. It processes the product data stream, enriches it with price categories, and stores it in a structured format within MongoDB. This paves the way for further applications that can utilize this categorized product data to enhance the consumer experience. For instance, a recommendation system could leverage these categories to suggest relevant products to consumers based on their browsing history and budget preferences.
+> - In this particular assignment, the consumer application functions as a data pipeline. It processes the product data stream, enriches it with price categories, and stores it in a structured format within MongoDB. This paves the way for further applications that can utilize this categorized product data to enhance the consumer experience. For instance, a recommendation system could leverage these categories to suggest relevant products to consumers based on their browsing history and budget preferences.
 
 
 
