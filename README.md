@@ -36,7 +36,7 @@ This Python script samples a large JSON file (like Amazon product data) to a sma
 This Python script preprocesses a large JSON file containing Amazon product data. It extracts specific features (asin, also_buy, and feature) from each product entry and creates a new JSON file containing only those features. To handle large datasets efficiently, the script processes the data in chunks of 100 rows at a time. Each chunk is converted to JSON format with each product on a separate line and then appended to the output file. This approach reduces memory usage compared to processing the entire file at once.
 
 
-### REALTIME DATA STREAMING WITH KAFKA (producer-1 and the three consumers)
+### PRODUCT DATA STREAMING / PIPELINE WITH KAFKA (producer and the three consumers)
 
 This section describes the producer application, a crucial component in the real-time product recommendation system built using Apache Kafka. The producer continuously reads preprocessed product data from a JSON file _(preprocessed_data.json)_ and streams it to Kafka topics in real-time.
 
