@@ -165,6 +165,76 @@ This consumer implements the PCY (Park-Chen-Yu) algorithm, an efficient approach
   > - Similar to the Apriori consumer, stores the results (batch number and frequent itemsets) in a separate MongoDB collection (frequentItemsetspcy) for 
          comparison.
 
+### Consumer(Categorizing)
+
+This Third consumer application designed to process a stream of product data from a Kafka topic and categorize them based on their prices in a MongoDB collection.
+
+###### **The Consumer in Action**
+
+>Imports: The code starts by importing necessary libraries for interacting with Kafka (KafkaConsumer, TopicPartition), JSON manipulation (json), and connecting to MongoDB (pymongo).
+
+##### **Configurations:**
+
+> -_bootstrap_servers:_ Defines the address of the Kafka broker (localhost:9092 in this case).
+
+> - _topic_name:_ Specifies the Kafka topic name containing the product data (product-feature-topic).
+
+> -_ mongo_conn_string:_ Sets the connection string for the MongoDB instance (localhost:27017).
+
+> - _mongo_db_name and mongo_collection_name:_ Define the database and collection names within MongoDB where the product data will be stored (product_catalog and products respectively).
+
+> - _MongoDB Connection:_ Establishes a connection to the MongoDB database and creates references to the specific database and collection for storing product information.
+
+##### **Kafka Consumer Setup:**
+
+Creates a Kafka consumer object, specifying the broker addresses and a deserializer function to convert encoded JSON messages into Python dictionaries.
+Assigns a specific topic partition **(TopicPartition(topic_name, 0))** to the consumer, indicating which part of the data stream it will process.
+
+##### **Price Categorization Function (categorize_prices):**
+> - Takes a product price as input.
+
+> - Based on price ranges, assigns a category label (Budget, Economy, Premium, or Luxury) to the product.
+
+
+##### **Batch Processing Function (fetch_categorized_products_from_batch):**
+
+> - Takes a batch number as input.
+
+> - Retrieves distinct product categories present in that specific batch from the MongoDB collection.
+
+> - Iterates through each category and fetches product details sorted by price (ascending order).
+
+> - Prints the retrieved product information (ASIN, price, and category) for each product within the category.
+
+##### **Main Loop:**
+
+> - Starts an infinite loop to continuously consume messages from the Kafka topic.
+> - For each received message:
+> - Prints a message indicating the batch number being processed.
+> - Extracts the product data from the message value.
+> - Iterates through each product within the data:
+> - If the product has a price field:
+> - Calls the categorize_prices function to assign a category based on price.
+> - Sets the batch number for the product based on the current processing iteration.
+> - Uses MongoDB's replace_one method to update the product document in the collection. This performs an upsert operation, meaning it either updates an existing 
+   document with the ASIN (unique product identifier) or inserts a new document if it doesn't exist.
+> - After processing the products in the batch, calls the fetch_categorized_products_from_batch function to retrieve and print the categorized product details 
+    from MongoDB for reference.
+> - Increments the batch number for the next iteration.
+
+
+##### **Overall Functionality**
+
+This consumer acts as a bridge between the real-time product data stream from Kafka and the persistent storage in MongoDB. It continuously processes product information, categorizes them based on price, and stores them in the designated MongoDB collection with additional details like category and batch number. This allows for efficient organization and retrieval of product data with additional insights into price ranges.
+
+
+### **Why we used the approach of the third consumer (categorizing consumer) and how it is effective : **
+
+This approach offers several advantages for the consumer in this scenario. Firstly, by leveraging Kafka's real-time processing capabilities, the consumer application can handle a continuous stream of product data without delays. This ensures that the product information in the MongoDB collection remains up-to-date, reflecting the latest additions or changes. Secondly, categorizing products based on price provides valuable insights for consumers. Imagine browsing an e-commerce platform where products are automatically categorized by price range. This can significantly improve the consumer experience by allowing for quicker product discovery and easier price comparisons within specific budget constraints.
+
+In this particular assignment, the consumer application functions as a data pipeline. It processes the product data stream, enriches it with price categories, and stores it in a structured format within MongoDB. This paves the way for further applications that can utilize this categorized product data to enhance the consumer experience. For instance, a recommendation system could leverage these categories to suggest relevant products to consumers based on their browsing history and budget preferences.
+
+
 
 ##### **Memory Management:**
 
