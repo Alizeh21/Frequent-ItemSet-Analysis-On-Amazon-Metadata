@@ -19,8 +19,8 @@ start "Consumer" cmd /k "cd %PROJECT_DIR% && python consumer(PCY).py"
 echo Running Consumer 2 Python script...
 start "Consumer" cmd /k "cd %PROJECT_DIR% && python consumer(Apriori).py"
 
-@REM echo Running Consumer 3 Python script...
-@REM start "Consumer" cmd /k "cd %PROJECT_DIR% && python consumer (PCY).py"
+echo Running Consumer 3 Python script...
+start "Consumer" cmd /k "cd %PROJECT_DIR% && python consumer(Categorizing).py"
 
 echo All services started.
 echo To stop services, close the command windows or use Ctrl+C in each one.
